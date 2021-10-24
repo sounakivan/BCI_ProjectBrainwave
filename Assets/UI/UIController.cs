@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private Image player1;
     [SerializeField] private Image player2;
-    [SerializeField] private GameObject _wait;
+    [SerializeField] private TMPro.TMP_Text _wait;
     private bool p1In;
     private bool p2In;
 
@@ -17,7 +18,6 @@ public class UIController : MonoBehaviour
     {
         p1In = false;
         p2In = false;
-        _wait.SetActive(false);
     }
 
     // Update is called once per frame
@@ -34,21 +34,29 @@ public class UIController : MonoBehaviour
             p2In = true;
         }
 
-        if ((p1In && !p2In) || (!p1In && p2In))
-        {
-            _wait.SetActive(true);
-        }
-        else
-        {
-            _wait.SetActive(false);
-        }
+        UpdateStatus(p1In, p2In);
 
     }
 
+    private void UpdateStatus(bool p1In, bool p2In)
+    {
+        if ((!p1In && !p2In))
+        {
+            _wait.SetText("Select the buttons to join");
+        }
+        if ((p1In && !p2In) || (!p1In && p2In))
+        {
+            _wait.SetText("Wait for the other player to join...");
+        }
+        if ((p1In && p2In))
+        {
+            _wait.SetText("Game On!");
+        }
+    }
 
     private void UpdateValue(Image player)
     {
-        float duration = 2.0f;
+        float duration = 1.0f;
         float barVal = player.fillAmount = 0f;
 
         DOTween.To(() => barVal, incrementer => barVal = incrementer, 1, duration)
