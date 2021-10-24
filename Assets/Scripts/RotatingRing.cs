@@ -28,12 +28,15 @@ public class RotatingRing : MonoBehaviour
     {
         transform.Rotate(rotAxis * rotationSpeed * Time.deltaTime);
 
-        if (Input.GetKey("d"))
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        
+        if (collision.gameObject.tag == "Player")
         {
             direction = -direction;
-            
             rotAxis.Set(0, direction, 0);
         }
     }
-
 }
