@@ -1,15 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private Image player1;
     [SerializeField] private Image player2;
-    [SerializeField] private TMPro.TMP_Text _wait;
+    [SerializeField] private TMP_Text waitText;
+    [SerializeField] private TMP_Text speedText;
+    [SerializeField] private Slider slider;
+
+    static public float _rotSpeed;
+
     private bool p1In;
     private bool p2In;
 
@@ -18,6 +23,8 @@ public class UIController : MonoBehaviour
     {
         p1In = false;
         p2In = false;
+        _rotSpeed = slider.value;
+
     }
 
     // Update is called once per frame
@@ -36,24 +43,38 @@ public class UIController : MonoBehaviour
 
         UpdateStatus(p1In, p2In);
 
+        _rotSpeed = slider.value;
+        speedText.SetText(_rotSpeed.ToString("0"));
+
     }
 
+
+    // Update player join status
     private void UpdateStatus(bool p1In, bool p2In)
     {
         if ((!p1In && !p2In))
         {
-            _wait.SetText("Select the buttons to join");
+            waitText.SetText("Select the buttons to join");
         }
         if ((p1In && !p2In) || (!p1In && p2In))
         {
-            _wait.SetText("Wait for the other player to join...");
+            waitText.SetText("Wait for the other player to join...");
         }
         if ((p1In && p2In))
         {
-            _wait.SetText("Game On!");
+            waitText.SetText("Game On!");
+            //DOVirtual.DelayedCall(3.0f, () => SceneManager.LoadScene("Level 01", LoadSceneMode.Single));
+            StartCoroutine(NextScene());
         }
     }
 
+    IEnumerator NextScene()
+    {
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("Level 01", LoadSceneMode.Single);
+    }
+
+    //Spiral progress bar animation when a user joins
     private void UpdateValue(Image player)
     {
         float duration = 1.0f;
