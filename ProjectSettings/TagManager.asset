@@ -6,6 +6,7 @@ TagManager:
   tags:
   - playerReverse
   - ringReverse
+  - openDetector
   layers:
   - Default
   - TransparentFX

@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class Player2Move : MonoBehaviour
 {
     public float moveSpeed = 5;
     public Vector3 orbitAxis;
     public int orbitDir = -1;
-    public bool isOpen = false; 
-      
+    public bool isOpen = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,14 +18,14 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("a"))
+        if (Input.GetKey("right"))
         {
             transform.RotateAround(Vector3.zero, orbitAxis, moveSpeed * Time.deltaTime);
         }
-        
+
         if (isOpen == true)
         {
-            if (Input.GetKey("s"))
+            if (Input.GetKey("down"))
             {
                 float step = moveSpeed * Time.deltaTime; // calculate distance to move
                 transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, step);
@@ -35,7 +35,7 @@ public class PlayerMove : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        
+
         if (collision.gameObject.tag == "playerReverse")
         {
             orbitDir = -orbitDir;
@@ -50,7 +50,7 @@ public class PlayerMove : MonoBehaviour
             isOpen = true;
             print("open");
         }
-        
+
     }
 
     void OnTriggerExit(Collider other)

@@ -5,9 +5,9 @@ using UnityEngine;
 public class RotatingRing : MonoBehaviour
 {
     public float rotationSpeed = 10;
-    private Vector3 rotAxis;
+    public Vector3 rotAxis;
     public bool clockwise = true;
-    private int direction;
+    public int direction;
 
     // Start is called before the first frame update
     void Start()
@@ -30,13 +30,4 @@ public class RotatingRing : MonoBehaviour
 
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        
-        if (collision.gameObject.tag == "Player")
-        {
-            direction = -direction;
-            rotAxis.Set(0, direction, 0);
-        }
-    }
 }
