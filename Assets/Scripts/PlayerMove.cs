@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 5;
-    public Vector3 orbitAxis;
-    public int orbitDir = -1;
-    public bool isOpen = false; 
+    public float moveSpeed = 10;
+    Vector3 orbitAxis;
+    int orbitDir = -1;
+    bool isOpen = false; 
       
     // Start is called before the first frame update
     void Start()
@@ -18,24 +18,50 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("a"))
+        //check if player 1 or 2
+        if (gameObject.tag == "Player1")
         {
-            transform.RotateAround(Vector3.zero, orbitAxis, moveSpeed * Time.deltaTime);
-        }
-        
-        if (isOpen == true)
-        {
-            if (Input.GetKey("s"))
+            //move sideways
+            if (Input.GetKey("a"))
             {
-                float step = moveSpeed * Time.deltaTime; // calculate distance to move
-                transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, step);
+                transform.RotateAround(Vector3.zero, orbitAxis, moveSpeed * Time.deltaTime);
+            }
+
+            //move towards center if near open gate
+            if (isOpen == true)
+            {
+                if (Input.GetKey("s"))
+                {
+                    float step = (moveSpeed / 2) * Time.deltaTime; // calculate distance to move
+                    transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, step);
+                }
             }
         }
+        else if (gameObject.tag == "Player2")
+        {
+            //move sideways
+            if (Input.GetKey("k"))
+            {
+                transform.RotateAround(Vector3.zero, orbitAxis, moveSpeed * Time.deltaTime);
+            }
+
+            //move towards center if near open gate
+            if (isOpen == true)
+            {
+                if (Input.GetKey("l"))
+                {
+                    float step = (moveSpeed / 5) * Time.deltaTime; // calculate distance to move
+                    transform.position = Vector3.MoveTowards(transform.position, Vector3.zero, step);
+                }
+            }
+        }
+
+
     }
 
+    //reverse the player's movement direction if they hit a blue wall
     void OnCollisionEnter(Collision collision)
     {
-        
         if (collision.gameObject.tag == "playerReverse")
         {
             orbitDir = -orbitDir;
@@ -43,14 +69,13 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    //Check if player is near an open gate
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "openDetector")
         {
             isOpen = true;
-            print("open");
         }
-        
     }
 
     void OnTriggerExit(Collider other)
@@ -58,7 +83,6 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.tag == "openDetector")
         {
             isOpen = false;
-            print("not open");
         }
     }
 }

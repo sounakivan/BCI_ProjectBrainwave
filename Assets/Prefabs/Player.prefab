@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857882e9d49fd054da1723d5ab40ea61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 20
   orbitAxis: {x: 0, y: 0, z: 0}
-  orbitDir: -1
+  orbitDir: 1
   isOpen: 0

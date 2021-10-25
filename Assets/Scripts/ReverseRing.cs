@@ -20,8 +20,13 @@ public class ReverseRing : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player1")
+        {
+            getRing.direction = -getRing.direction;
+            getRing.rotAxis.Set(0, getRing.direction, 0);
+        }
+        
+        if (collision.gameObject.tag == "Player2")
         {
             getRing.direction = -getRing.direction;
             getRing.rotAxis.Set(0, getRing.direction, 0);
