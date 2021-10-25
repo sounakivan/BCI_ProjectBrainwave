@@ -7,9 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-    [SerializeField] private Image player1;
-    [SerializeField] private Image player2;
-    [SerializeField] private TMP_Text waitText;
+    [SerializeField] private GameObject player1;
+    [SerializeField] private GameObject player2;
+    [SerializeField] private GameObject waitText;
     [SerializeField] private TMP_Text speedText;
     [SerializeField] private Slider slider;
 
@@ -32,12 +32,14 @@ public class UIController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Alpha1))
         {
-            UpdateValue(player1);
+            UpdateValue(player1.GetComponent<Image>());
+            player1.GetComponent<AudioSource>().Play();
             p1In = true;
         }
         if (Input.GetKey(KeyCode.Alpha2))
         {
-            UpdateValue(player2);
+            UpdateValue(player2.GetComponent<Image>());
+            player2.GetComponent<AudioSource>().Play();
             p2In = true;
         }
 
@@ -54,15 +56,15 @@ public class UIController : MonoBehaviour
     {
         if ((!p1In && !p2In))
         {
-            waitText.SetText("Select the buttons to join");
+            waitText.GetComponent<TMP_Text>().SetText("Select the buttons to join");
         }
         if ((p1In && !p2In) || (!p1In && p2In))
         {
-            waitText.SetText("Wait for the other player to join...");
+            waitText.GetComponent<TMP_Text>().SetText("Wait for the other player to join...");
         }
         if ((p1In && p2In))
         {
-            waitText.SetText("Game On!");
+            waitText.GetComponent<TMP_Text>().SetText("Game On!");           
             //DOVirtual.DelayedCall(3.0f, () => SceneManager.LoadScene("Level 01", LoadSceneMode.Single));
             StartCoroutine(NextScene());
         }
@@ -70,6 +72,13 @@ public class UIController : MonoBehaviour
 
     IEnumerator NextScene()
     {
+        yield return new WaitForSeconds(2);
+        AudioSource aud = waitText.GetComponent<AudioSource>();
+        if (!aud.isPlaying)
+        {
+            Debug.Log("game on!");
+            aud.Play();
+        }
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene("Level 01", LoadSceneMode.Single);
     }
