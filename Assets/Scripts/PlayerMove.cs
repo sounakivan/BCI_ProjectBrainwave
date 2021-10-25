@@ -67,6 +67,12 @@ public class PlayerMove : MonoBehaviour
             orbitDir = -orbitDir;
             orbitAxis.Set(0, orbitDir, 0);
         }
+
+        if (collision.gameObject.tag == "ringReverse")
+        {
+            orbitDir = -orbitDir;
+            orbitAxis.Set(0, orbitDir, 0);
+        }
     }
 
     //Check if player is near an open gate

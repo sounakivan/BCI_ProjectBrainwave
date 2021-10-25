@@ -30,13 +30,13 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha1))
+        if (Input.GetKey("a"))
         {
             UpdateValue(player1.GetComponent<Image>());
             player1.GetComponent<AudioSource>().Play();
             p1In = true;
         }
-        if (Input.GetKey(KeyCode.Alpha2))
+        if (Input.GetKey("k"))
         {
             UpdateValue(player2.GetComponent<Image>());
             player2.GetComponent<AudioSource>().Play();
